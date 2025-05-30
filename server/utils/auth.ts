@@ -1,7 +1,10 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import dotenv from "dotenv";
 
-const SECRET = process.env.JWT_SECRET || "super-secret";
+dotenv.config();
+
+const SECRET = process.env.JWT_SECRET;
 
 export function generateEncryptedToken(payload: object): string {
   const token = jwt.sign(payload, SECRET, { expiresIn: "1h" });
