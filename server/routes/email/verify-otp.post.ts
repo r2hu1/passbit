@@ -24,7 +24,7 @@ export default defineEventHandler(async (event) => {
     return createError({ statusCode: 400, statusMessage: "Invalid OTP" });
   }
 
-  await OtpModel.deleteOne({ userId: id });
+  await OtpModel.deleteMany({ userId: id });
   await (User as Model<IUser>).updateOne({ _id: id }, { status: "verified" });
   return {
     success: true,

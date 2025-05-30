@@ -1,8 +1,19 @@
+import { Model } from "mongoose";
 import nodemailer from "nodemailer";
+import User, { IUser } from "~/models/user";
+import connectDB from "~/utils/db";
 import saveOtpForUser from "~/utils/save-otp";
 
 export default defineEventHandler(async (event) => {
-  const { email } = event.context.user;
+  const { email, id } = event.context.user;
+  await connectDB();
+  const userStatus = await (User as Model<IUser>).findById({ _id: id });
+  if (userStatus.status != "unverified") {
+    return createError({
+      statusCode: 400,
+      statusMessage: "User is already verified",
+    });
+  }
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -56,6 +67,8 @@ export default defineEventHandler(async (event) => {
     await saveOtpForUser(event.context.user.id, code);
     return {
       success: true,
+      error: false,
+      statusCode: 200,
     };
   } catch (error: any) {
     return createError({
