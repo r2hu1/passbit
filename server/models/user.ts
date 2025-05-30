@@ -21,6 +21,12 @@ const userSchema = new Schema({
     type: String,
     default: "unverified",
   },
+  savedPasswords: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Pwd",
+    },
+  ],
 });
 
 userSchema.pre("save", async function (next) {
