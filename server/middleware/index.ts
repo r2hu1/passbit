@@ -2,7 +2,13 @@ import { defineEventHandler, getHeader, createError } from "h3";
 import { verifyEncryptedToken } from "~/utils/auth";
 
 export default defineEventHandler((event) => {
-  const publicRoutes = ["/auth/login", "/auth/register", "/"];
+  const publicRoutes = [
+    "/auth/login",
+    "/auth/register",
+    "/",
+    "/auth/forgot-password",
+    "/auth/reset-password",
+  ];
   if (publicRoutes.includes(event.node.req.url)) return;
 
   const authHeader = getHeader(event, "authorization");

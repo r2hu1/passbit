@@ -13,4 +13,4 @@ const otpSchema = new Schema({
   expiresAt: { type: Date, required: true },
 });
 
-export const OtpModel = models.Otp || mongoose.model("Otp", otpSchema);
+export const Otp = models.Otp || mongoose.model("Otp", otpSchema);
