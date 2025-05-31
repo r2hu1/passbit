@@ -1,7 +1,15 @@
 import mongoose from "mongoose";
 const { Schema, models, model } = mongoose;
 
-const pwdSchema = new Schema({
+export interface IPwd {
+  name: string;
+  email: string;
+  password: string;
+  username: string;
+  owner: mongoose.Types.ObjectId;
+}
+
+const pwdSchema = new Schema<IPwd>({
   name: {
     type: String,
     default: "Account",
@@ -9,6 +17,10 @@ const pwdSchema = new Schema({
   email: {
     type: String,
     required: true,
+  },
+  username: {
+    type: String,
+    required: false,
   },
   password: {
     type: String,
@@ -19,6 +31,22 @@ const pwdSchema = new Schema({
     ref: "User",
     required: true,
   },
+});
+
+pwdSchema.pre("save", async function (next) {
+  if (this.isModified("name")) {
+    this.name = encrypt(this.name);
+  }
+  if (this.isModified("email")) {
+    this.email = encrypt(this.email);
+  }
+  if (this.isModified("password")) {
+    this.password = encrypt(this.password);
+  }
+  if (this.isModified("username")) {
+    this.password = encrypt(this.username);
+  }
+  next();
 });
 
 const Pwd = models.Pwd || model("Pwd", pwdSchema);

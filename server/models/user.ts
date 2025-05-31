@@ -1,10 +1,12 @@
 import mongoose, { Model } from "mongoose";
+import Pwd from "./password";
 const { model, models, Schema } = mongoose;
 
 export interface IUser {
   email: string;
   password: string;
   status?: string;
+  savedPasswords?: mongoose.Types.ObjectId[];
 }
 
 const userSchema = new Schema({
@@ -51,6 +53,14 @@ userSchema.pre("save", async function (next) {
     throw new Error("Password cannot contain the word '12345678'");
   }
   this.password = encrypt(this.password);
+});
+
+userSchema.pre("findOneAndDelete", async function (next) {
+  const doc = await this.model.findOne(this.getFilter());
+  if (doc) {
+    await Pwd.deleteMany({ _id: { $in: doc.savedPasswords } });
+  }
+  next();
 });
 
 const User = models.User || model("User", userSchema);

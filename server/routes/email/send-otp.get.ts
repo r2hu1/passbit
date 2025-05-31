@@ -68,6 +68,7 @@ export default defineEventHandler(async (event) => {
       success: true,
       error: false,
       statusCode: 200,
+      message: "OTP sent successfully",
     };
   } catch (error: any) {
     return createError({

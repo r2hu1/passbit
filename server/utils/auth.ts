@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -7,7 +6,7 @@ dotenv.config();
 const SECRET = process.env.JWT_SECRET;
 
 export function generateEncryptedToken(payload: object): string {
-  const token = jwt.sign(payload, SECRET, { expiresIn: "1h" });
+  const token = jwt.sign(payload, SECRET, { expiresIn: "24h" });
   return encrypt(token);
 }
 
@@ -18,10 +17,6 @@ export function verifyEncryptedToken(encryptedToken: string): any | null {
   } catch (error) {
     return null;
   }
-}
-
-export async function hashPassword(password: string): Promise<string> {
-  return await bcrypt.hash(password, 10);
 }
 
 export async function verifyPassword(

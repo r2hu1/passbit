@@ -1,4 +1,3 @@
-import { defineEventHandler, getHeader, createError } from "h3";
 import { verifyEncryptedToken } from "~/utils/auth";
 
 export default defineEventHandler((event) => {
