@@ -10,27 +10,32 @@ export interface IUser {
   savedPasswords?: mongoose.Types.ObjectId[];
 }
 
-const userSchema = new Schema({
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  status: {
-    type: String,
-    default: "unverified",
-  },
-  savedPasswords: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Pwd",
+const userSchema = new Schema(
+  {
+    email: {
+      type: String,
+      required: true,
+      unique: true,
     },
-  ],
-});
+    password: {
+      type: String,
+      required: true,
+    },
+    status: {
+      type: String,
+      default: "unverified",
+    },
+    savedPasswords: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Pwd",
+      },
+    ],
+  },
+  {
+    timestamps: true,
+  },
+);
 
 userSchema.pre("save", async function (next) {
   const emailExists = await (User as Model<IUser>).findOne({
