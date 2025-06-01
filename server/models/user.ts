@@ -1,5 +1,6 @@
 import mongoose, { Model } from "mongoose";
 import Pwd from "./password";
+import { hashPassword } from "~/utils/crypto";
 const { model, models, Schema } = mongoose;
 
 export interface IUser {
@@ -52,7 +53,7 @@ userSchema.pre("save", async function (next) {
   if (this.password.includes("12345678")) {
     throw new Error("Password cannot contain the word '12345678'");
   }
-  this.password = encrypt(this.password);
+  this.password = await hashPassword(this.password);
 });
 
 userSchema.pre("findOneAndDelete", async function (next) {

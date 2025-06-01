@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import bcrypt from "bcryptjs";
 
 dotenv.config();
 
@@ -23,5 +24,5 @@ export async function verifyPassword(
   password: string,
   hash: string,
 ): Promise<boolean> {
-  return password == decrypt(hash);
+  return await bcrypt.compare(password, hash);
 }
