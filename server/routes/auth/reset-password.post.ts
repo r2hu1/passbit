@@ -1,6 +1,7 @@
 import { Model } from "mongoose";
 import { IOtpModel, Otp } from "~/models/otp";
 import User, { IUser } from "~/models/user";
+import { hashPassword } from "~/utils/crypto";
 import connectDB from "~/utils/db";
 
 export default defineEventHandler(async (event) => {
@@ -26,7 +27,7 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const hashedPassword = encrypt(newPassword);
+  const hashedPassword = hashPassword(newPassword);
 
   await (User as Model<IUser>).findOneAndUpdate(
     { email },

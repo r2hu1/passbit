@@ -42,6 +42,7 @@ export default defineEventHandler(async (event) => {
         username: newPwd.username,
         email: newPwd.email,
         password: newPwd.password,
+        id: newPwd._id,
       },
     };
   } catch (error) {

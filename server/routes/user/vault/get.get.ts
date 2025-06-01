@@ -9,8 +9,16 @@ export default defineEventHandler(async (event) => {
     const user = await (User as Model<IUser>)
       .findById(id)
       .populate("savedPasswords");
+
+    const decryptedSaved = user.savedPasswords.map((entry: any) => ({
+      ...entry.toObject(),
+      name: decrypt(entry.name),
+      email: decrypt(entry.email),
+      password: decrypt(entry.password),
+    }));
+
     return {
-      savedPasswords: user.savedPasswords,
+      saved: decryptedSaved,
     };
   } catch (error) {
     return createError({
