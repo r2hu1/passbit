@@ -1,6 +1,6 @@
 import { Model } from "mongoose";
 import { IOtpModel, Otp } from "~/models/otp";
-import connectDB from "./db";
+import connectDB from "./connect";
 
 export default async function saveOtpForUser(userId: string, otp: string) {
   await connectDB();
