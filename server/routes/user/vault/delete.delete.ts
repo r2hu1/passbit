@@ -1,14 +1,12 @@
 import { Model } from "mongoose";
 import Pwd, { IPwd } from "~/models/password";
 import User, { IUser } from "~/models/user";
-import connectDB from "~/utils/db";
 
 export default defineEventHandler(async (event) => {
   try {
     const { id: userId } = event.context.user;
     const { id: pwdId } = await readBody(event);
 
-    await connectDB();
     const deletedPwd = await (Pwd as Model<IPwd>).findByIdAndDelete(pwdId);
     if (!deletedPwd) {
       return createError({

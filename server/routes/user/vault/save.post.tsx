@@ -1,15 +1,13 @@
 import { Model } from "mongoose";
 import Pwd, { IPwd } from "~/models/password";
 import User, { IUser } from "~/models/user";
-import connectDB from "~/utils/db";
 
 export default defineEventHandler(async (event) => {
   try {
     const { id } = event.context.user;
 
-    const { password, name, email, username } = await readBody(event);
+    const { password, name, email, username, note } = await readBody(event);
 
-    await connectDB();
     const isUserVerified = await (User as Model<IUser>).findById(id);
     if (isUserVerified.status != "verified") {
       return createError({
@@ -19,10 +17,11 @@ export default defineEventHandler(async (event) => {
     }
 
     const newPwd = await (Pwd as Model<IPwd>).create({
-      name: name || "My Account",
-      email: email || null,
+      name: name,
+      email: email,
       password: password,
-      username: username || null,
+      username: username,
+      note: note,
       owner: id,
     });
 
@@ -37,13 +36,7 @@ export default defineEventHandler(async (event) => {
     return {
       success: true,
       error: false,
-      saved: {
-        name: newPwd.name,
-        username: newPwd.username,
-        email: newPwd.email,
-        password: newPwd.password,
-        id: newPwd._id,
-      },
+      added: newPwd,
     };
   } catch (error) {
     return createError({
