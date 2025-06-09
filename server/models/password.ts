@@ -33,6 +33,7 @@ const pwdSchema = new Schema<IPwd>({
     type: String,
     required: false,
     default: "",
+    maxlength: 100,
   },
   owner: {
     type: Schema.Types.ObjectId,
