@@ -6,6 +6,7 @@ export interface IPwd {
   email: string;
   password: string;
   username: string;
+  note: string;
   owner: mongoose.Types.ObjectId;
 }
 
@@ -13,6 +14,7 @@ const pwdSchema = new Schema<IPwd>({
   name: {
     type: String,
     default: "Account",
+    required: false,
   },
   email: {
     type: String,
@@ -20,11 +22,17 @@ const pwdSchema = new Schema<IPwd>({
   },
   username: {
     type: String,
+    default: "",
     required: false,
   },
   password: {
     type: String,
     required: true,
+  },
+  note: {
+    type: String,
+    required: false,
+    default: "",
   },
   owner: {
     type: Schema.Types.ObjectId,
@@ -44,7 +52,10 @@ pwdSchema.pre("save", async function (next) {
     this.password = encrypt(this.password);
   }
   if (this.isModified("username")) {
-    this.password = encrypt(this.username);
+    this.username = encrypt(this.username);
+  }
+  if (this.isModified("note")) {
+    this.note = encrypt(this.note);
   }
   next();
 });
