@@ -1,8 +1,5 @@
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
 import bcrypt from "bcryptjs";
-
-dotenv.config();
 
 const SECRET = process.env.JWT_SECRET;
 

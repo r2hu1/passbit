@@ -1,9 +1,7 @@
 import { Model } from "mongoose";
 import { IOtpModel, Otp } from "~/models/otp";
-import connectDB from "./connect";
 
 export default async function saveOtpForUser(userId: string, otp: string) {
-  await connectDB();
   const hashedOtp = encrypt(otp);
 
   const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
