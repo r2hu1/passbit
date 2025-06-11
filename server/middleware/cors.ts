@@ -6,7 +6,7 @@ import {
 } from "h3";
 
 export default defineEventHandler((event) => {
-  const origin = getRequestHeader(event, "origin") || "*";
+  const origin = "*";
 
   setResponseHeaders(event, {
     "Access-Control-Allow-Origin": origin,
@@ -15,8 +15,4 @@ export default defineEventHandler((event) => {
     "Access-Control-Allow-Credentials": "true",
   });
   console.log("[CORS] headers set");
-  if (getMethod(event) === "OPTIONS") {
-    event.node.res.statusCode = 204;
-    event.node.res.end();
-  }
 });
