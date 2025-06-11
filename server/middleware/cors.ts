@@ -15,4 +15,8 @@ export default defineEventHandler((event) => {
     "Access-Control-Allow-Credentials": "true",
   });
   console.log("[CORS] headers set");
+  if (getMethod(event) === "OPTIONS") {
+    event.node.res.statusCode = 204;
+    event.node.res.end();
+  }
 });
