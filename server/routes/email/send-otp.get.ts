@@ -11,13 +11,13 @@ export default defineEventHandler(async (event) => {
       statusMessage: "Invalid user data",
     });
   }
-  const userStatus = await (User as Model<IUser>).find({ email });
-  if (userStatus[0].status != "unverified") {
-    return createError({
-      statusCode: 400,
-      statusMessage: "User is already verified",
-    });
-  }
+  // const userStatus = await (User as Model<IUser>).find({ email });
+  // if (userStatus[0].status != "unverified") {
+  //   return createError({
+  //     statusCode: 400,
+  //     statusMessage: "User is already verified",
+  //   });
+  // }
 
   try {
     const code = Math.floor(100000 + Math.random() * 900000).toString();
