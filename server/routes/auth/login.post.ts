@@ -31,6 +31,11 @@ export default defineEventHandler(async (event) => {
     );
   }
 
+  await (User as Model<IUser>).updateOne(
+    { email: body.email },
+    { status: "unverified" },
+  );
+
   const encryptedToken = generateEncryptedToken({
     id: user.id,
     email: user.email,
