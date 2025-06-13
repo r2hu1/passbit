@@ -11,8 +11,8 @@ export default defineEventHandler(async (event) => {
       statusMessage: "Invalid user data",
     });
   }
-  const userStatus = await (User as Model<IUser>).findById({ _id: id });
-  if (userStatus?.status != "unverified") {
+  const userStatus = await (User as Model<IUser>).find({ email });
+  if (userStatus[0].status != "unverified") {
     return createError({
       statusCode: 400,
       statusMessage: "User is already verified",
