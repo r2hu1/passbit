@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
     });
   }
   const userStatus = await (User as Model<IUser>).findById({ _id: id });
-  if (userStatus.status != "unverified") {
+  if (userStatus?.status != "unverified") {
     return createError({
       statusCode: 400,
       statusMessage: "User is already verified",
