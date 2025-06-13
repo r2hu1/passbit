@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 const SECRET = process.env.JWT_SECRET;
 
 export function generateEncryptedToken(payload: object): string {
-  const token = jwt.sign(payload, SECRET, { expiresIn: "24h" });
+  const token = jwt.sign(payload, SECRET);
   return encrypt(token);
 }
 
