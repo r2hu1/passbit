@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
     const { password, name, email, username, note } = await readBody(event);
 
     const isUserVerified = await (User as Model<IUser>).findById(id);
-    if (isUserVerified.status != "verified") {
+    if (isUserVerified.status == "unverified") {
       return createError({
         statusCode: 400,
         statusMessage: "Please verify your email address",
