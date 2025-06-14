@@ -25,7 +25,7 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const hashedPassword = hashPassword(newPassword);
+  const hashedPassword = await hashPassword(String(newPassword));
 
   await (User as Model<IUser>).findOneAndUpdate(
     { email },
